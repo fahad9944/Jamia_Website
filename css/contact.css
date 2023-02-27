@@ -10,15 +10,20 @@
 }
 
 /*===============Aside=======================*/
+h4 {
+    background-color:springgreen;
+}
+
 
 .contact_aside {
-    background-image: url("/Madarsa/jamiafront.png");
+    background-image: url("/Madarsa/jamiafull.jpg");
     background-size:cover;
     padding: 3rem;
     border-radius: 1rem;
     position: relative;
     bottom: 10rem;
 }
+
 /*
 .contact_aside {
     background: var(--color-primary);
@@ -33,6 +38,7 @@
     margin-bottom: 2rem;
 }
 */
+
 
 .contact_aside h2{
     text-align: left;

@@ -1,3 +1,34 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$host = "localhost";
+$username = "root"; 
+$password = "";
+$db_name = "jamiadb";
+$c = mysqli_connect($host, $username, $password, $db_name);
+if($c != true )
+{
+    echo "connection failed";
+}
+
+$fn = $_POST['first_name'];
+$ln = $_POST['last_name'];
+$email = $_POST['email_address'];
+$msg = $_POST['message'];
+$by = $_POST['written_by'];
+$in = "INSERT INTO `tblcontact`( `first_name`, `Last_name`, `Email_address`, `Message`, `Written_by`) VALUES ('$fn','$ln','$email','$msg','$by')";
+$query = mysqli_query($c, $in);
+
+if($query)
+{
+    echo "<br> $fn $ln Your Form Is Submitted Successfully";
+    
+}
+else
+{
+    echo "<br> Failed to insert <br>". mysqli_error($c);
+}
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -5,7 +36,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>afterproject</title>
+    <title>MEEZABUL ULOOM</title>
     
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/about.css">
@@ -33,23 +64,29 @@
         </ul>
         <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
         <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
-
-    </div>
+  </div>
 </nav>
+
 
 <!--===================end of navbar===========-->
 
+<div class="alert alert-success" role="alert">
+  <h4 class="alert-heading">Well done!</h4>
+  <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+  <hr>
+  <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+</div>
 
 
 
 <section class="form">
     <div class="container contact_container">
         <aside class="contact_aside">
-
-        <h2>CONTACT US</h2>
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae minus quod unde sequi obcaecati voluptatibus necessitatibus saepe dicta recusandae inventore animi consectetur sunt iusto, 
-            </p>
+            
+            <h2>CONTACT US</h2>
+                <p>
+                    this is the contact 
+                </p>
             <ul class="contact_details">
                 <li>
                     <i class="uil uil-phone-times"></i>
@@ -63,17 +100,17 @@
             </ul>
         </aside>
 
-        <form action="insert.php" method="post">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             <div class="form_name">
                 <input type="text" name="first_name" placeholder="First Name" required>
                 <input type="text" name="last_name" placeholder="Last Name" required>
             </div>
 
             <input type="email" name="email_address" placeholder="Your Email Address" required>
-            <textarea name="message" rows="7" placeholder="Message" required></textarea>
+            <textarea name="message" rows="8" placeholder="Message" required></textarea>
             WRITTEN BY<select name="written_by" id="written by">
                 <option value="OTHERS">Others</option>
-                <option value="JAMIA_STUDENT">JAMIA'S STUDENT</option>
+                <option value="JAMIA_STUDENT">JAMIA STUDENT</option>
             </select>
             <input type="reset" value="Clear" id="reset">
             <button type="submit" class="btn btn-submit" name="btn-submit">OK</button>
@@ -88,7 +125,7 @@
 <footer class="footer">
     <div class="container footer_container">
         <div class="footer_1">
-            <a href="index.html" class="fooer_logo"><h4>JAMIA MEEZABUL ULOOM</h4></a>
+            <a href="index.html" class="footer_logo"><h4>JAMIA MEEZABUL ULOOM</h4></a>
             <p>Lorem ipsum dolor sit amet aaaaaaaap>
         </div>
 
@@ -121,3 +158,4 @@
 
 </body>
 </html>
+
