@@ -10,6 +10,7 @@ if($c != true )
     echo "connection failed";
 }
 
+
 $fn = $_POST['first_name'];
 $ln = $_POST['last_name'];
 $email = $_POST['email_address'];
@@ -18,17 +19,16 @@ $by = $_POST['written_by'];
 $in = "INSERT INTO `tblcontact`( `first_name`, `Last_name`, `Email_address`, `Message`, `Written_by`) VALUES ('$fn','$ln','$email','$msg','$by')";
 $query = mysqli_query($c, $in);
 
-if($query)
-{
-    echo "<br> $fn $ln Your Form Is Submitted Successfully";
-    
-}
-else
-{
-    echo "<br> Failed to insert <br>". mysqli_error($c);
-}
-}
-?>
+
+if($query == true){
+    ?> 
+    <script>alert (" Submit") </script>
+    <?php
+}   
+    else{
+        ?> <script>alert ("Failed To Submit")</script>
+    <?php
+}   ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,8 +49,10 @@ else
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;1,400;1,800;1,900&display=swap" rel="stylesheet">
-    
-</head>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+
 
 <body>
 
@@ -69,14 +71,6 @@ else
 
 
 <!--===================end of navbar===========-->
-
-<div class="alert alert-success" role="alert">
-  <h4 class="alert-heading">Well done!</h4>
-  <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
-  <hr>
-  <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
-</div>
-
 
 
 <section class="form">
@@ -155,6 +149,7 @@ else
   
 
 <script src="/main.js"></script>
+
 
 </body>
 </html>
