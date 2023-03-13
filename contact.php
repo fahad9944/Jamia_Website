@@ -1,34 +1,42 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-$host = "localhost";
-$username = "root"; 
-$password = "";
-$db_name = "jamiadb";
-$c = mysqli_connect($host, $username, $password, $db_name);
-if($c != true )
+require_once('connect.php');
+
+
+
+
+
+if($_SERVER ['REQUEST_METHOD'] == "POST")
 {
-    echo "connection failed";
+
+if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !==true)
+    
+    {
+        echo "<br><h2>PLEASE LOGIN TO CONTACT US</h2><br>";
+    }
+   else   {
+        $fn = $_POST['first_name'];                                      
+        $ln = $_POST['last_name'];
+        $email = $_POST['email_address'];
+        $msg = $_POST['message'];
+        $by = $_POST['written_by'];
+        $in = "INSERT INTO `tblcontact`( `First_name`, `Last_name`, `Email_address`, `Message`, `Written_by`) VALUES ('$fn','$ln','$email','$msg','$by')";
+            $query = mysqli_query($c, $in);
+           
+           if($query)
+           {
+               echo "<br> Inserted successfully";
+            }
+            else
+            {
+                echo "<br> Failed to insert <br>". mysqli_error($c);
+            }
+   }
 }
 
 
-$fn = $_POST['first_name'];
-$ln = $_POST['last_name'];
-$email = $_POST['email_address'];
-$msg = $_POST['message'];
-$by = $_POST['written_by'];
-$in = "INSERT INTO `tblcontact`( `first_name`, `Last_name`, `Email_address`, `Message`, `Written_by`) VALUES ('$fn','$ln','$email','$msg','$by')";
-$query = mysqli_query($c, $in);
 
+?>
 
-if($query == true){
-    ?> 
-    <script>alert (" Submit") </script>
-    <?php
-}   
-    else{
-        ?> <script>alert ("Failed To Submit")</script>
-    <?php
-}   ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,11 +44,11 @@ if($query == true){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEEZABUL ULOOM</title>
+    <title>JAMIA MEEZABUL ULOOM</title>
     
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/about.css">
-    <link rel="stylesheet" href="./css/contact.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="css/contact.css">
 
     <!--icon-->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.5/css/unicons.css">
@@ -49,38 +57,46 @@ if($query == true){
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;1,400;1,800;1,900&display=swap" rel="stylesheet">
-   
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-
-
+    
+</head>
 
 <body>
 
 <nav>
     <div class="container nav_container">
-        <a href="index.html"><h3>JAMIA MEEZABUL ULOOM</h3></a>
+        <a href="index.php"><h3>JAMIA MEEZABUL ULOOM</h3></a>
         <ul class="nav_menu">
-            <li><a href="index.html">HOME</a></li>
-            <li><a href="about.html">ABOUT</a></li>
-            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="index.php">HOME</a></li>
+            <li><a href="about.php">ABOUT</a></li>
+            <li><a href="contact.php">CONTACT</a></li>
+            <li><a href="login.php">LOGIN</a></li>
+            <li><a href="register.php">REGISTER</a></li>
+            <li><a href="logout.php">LOGOUT</a></li>
         </ul>
         <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
         <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
-  </div>
-</nav>
 
+    </div>
+</nav>
 
 <!--===================end of navbar===========-->
 
 
+<style>
+    .contact_aside {
+      background-image: url("madarsa/jamiafront.png");
+    }
+    </style>
+    
+
 <section class="form">
     <div class="container contact_container">
         <aside class="contact_aside">
-            
-            <h2>CONTACT US</h2>
-                <p>
-                    this is the contact 
-                </p>
+
+        <h2>CONTACT US</h2>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae minus quod unde sequi obcaecati voluptatibus necessitatibus saepe dicta recusandae inventore animi consectetur sunt iusto, 
+            </p>
             <ul class="contact_details">
                 <li>
                     <i class="uil uil-phone-times"></i>
@@ -94,14 +110,14 @@ if($query == true){
             </ul>
         </aside>
 
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form_name">
                 <input type="text" name="first_name" placeholder="First Name" required>
                 <input type="text" name="last_name" placeholder="Last Name" required>
             </div>
 
             <input type="email" name="email_address" placeholder="Your Email Address" required>
-            <textarea name="message" rows="8" placeholder="Message" required></textarea>
+            <textarea name="message" rows="7" placeholder="Message" required></textarea>
             WRITTEN BY<select name="written_by" id="written by">
                 <option value="OTHERS">Others</option>
                 <option value="JAMIA_STUDENT">JAMIA STUDENT</option>
@@ -115,20 +131,21 @@ if($query == true){
 
 
 
-
 <footer class="footer">
     <div class="container footer_container">
         <div class="footer_1">
-            <a href="index.html" class="footer_logo"><h4>JAMIA MEEZABUL ULOOM</h4></a>
-            <p>Lorem ipsum dolor sit amet aaaaaaaap>
+            <a href="index.html" class="fooer_logo"><h4>JAMIA MEEZABUL ULOOM</h4></a>
+            <p>Lorem ipsum dolor sit amet aaaaaaaa</p>
         </div>
 
         <div class="footer_2">
             <h4>permalinks</h4>
             <ul class="permalinks">
-                <li><a href="index.html">HOME</a></s></li>
-                <li><a href="about.html">ABOUT</a></s></li>
-                <li><a href="contact.html">CONTACT</a></s></li>
+            <li><a href="index.php">HOME</a></li>
+            <li><a href="about.php">ABOUT</a></li>
+            <li><a href="contact.php">CONTACT</a></li>
+            <li><a href="login.php">LOGIN</a></li>
+            <li><a href="register.php">REGISTER</a></li>
             </ul>
         </div>
 
@@ -148,9 +165,7 @@ if($query == true){
 </footer>
   
 
-<script src="/main.js"></script>
-
+<script src="js/main.js"></script>
 
 </body>
 </html>
-
